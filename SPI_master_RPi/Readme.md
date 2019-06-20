@@ -52,3 +52,9 @@ Então
 (O sudo é necessário para elevar as permissões para o usuário root)
 
 A biblioteca está agora pronta para uso.
+
+Para compilar o código, basta usar o seguinte comando exemplo:
+
+* sudo example.c -o example -lbcm2835
+
+

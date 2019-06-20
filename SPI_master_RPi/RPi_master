@@ -1,11 +1,19 @@
-//Setup SPI pins
+#include <stdio.h>
+#include <bcm2835.h>
+
+
+
+	// Configurando os pinos SPI
 	bcm2835_spi_begin();
 	
-	//Set CS pins polarity to low
+	// Especificando a ordem dos bits de dados SPI
+	bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_LSBFIRST); 
+	
+	// Definindo a polaridade dos pinos CS para baixo
 	bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, 0);
 	bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS1, 0);
 	
-	//Set SPI clock speed
+	// Definindo a velocidade do clock do SPI
 	//	BCM2835_SPI_CLOCK_DIVIDER_65536 = 0,       ///< 65536 = 262.144us = 3.814697260kHz (total H+L clock period) 
 	//	BCM2835_SPI_CLOCK_DIVIDER_32768 = 32768,   ///< 32768 = 131.072us = 7.629394531kHz
 	//	BCM2835_SPI_CLOCK_DIVIDER_16384 = 16384,   ///< 16384 = 65.536us = 15.25878906kHz
@@ -25,26 +33,26 @@
 	//	BCM2835_SPI_CLOCK_DIVIDER_1     = 1,       ///< 1 = 262.144us = 3.814697260kHz, same as 0/65536
 	bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_128);
 
-	//Set SPI data mode
+	// Definindo o modo de dados SPI
 	//	BCM2835_SPI_MODE0 = 0,  // CPOL = 0, CPHA = 0, Clock idle low, data is clocked in on rising edge, output data (change) on falling edge
 	//	BCM2835_SPI_MODE1 = 1,  // CPOL = 0, CPHA = 1, Clock idle low, data is clocked in on falling edge, output data (change) on rising edge
 	//	BCM2835_SPI_MODE2 = 2,  // CPOL = 1, CPHA = 0, Clock idle high, data is clocked in on falling edge, output data (change) on rising edge
 	//	BCM2835_SPI_MODE3 = 3,  // CPOL = 1, CPHA = 1, Clock idle high, data is clocked in on rising, edge output data (change) on falling edge
 	bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);		//(SPI_MODE_# | SPI_CS_HIGH)=Chip Select active high, (SPI_MODE_# | SPI_NO_CS)=1 device per bus no Chip Select
 
-	//Set with CS pin to use for next transfers
+	// Definindo o pino CS para usar nas próximas transferências
 	bcm2835_spi_chipSelect(BCM2835_SPI_CS0);
 
-	//Transfer 1 byte
-	//uint8_t data;
-	//data = bcm2835_spi_transfer((uint8_t)0x55);
+	// Transferir 1 byte
+	uint8_t data;
+	data = bcm2835_spi_transfer((uint8_t)0x55);
 	
-	//Transfer many bytes
-	char data_buffer[10];
-	int Count;
-	for (Count = 0; Count < 10; Count++)
-		data_buffer[Count] = 0x80 + Count;
-	bcm2835_spi_transfern(&data_buffer[0], 10);			//data_buffer used for tx and rx
+	// Transferir muitos bytes
+	//char data_buffer[10];
+	//int Count;
+	//for (Count = 0; Count < 10; Count++)
+		//data_buffer[Count] = 0x80 + Count;
+	//bcm2835_spi_transfern(&data_buffer[0], 10);			//data_buffer usado para tx e rx
 	
-	//Return SPI pins to default inputs state
+	// Retorna os pinos SPI ao estado de entradas padrão
 	//bcm2835_spi_end();

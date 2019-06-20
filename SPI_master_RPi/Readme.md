@@ -57,4 +57,8 @@ Para compilar o código, basta usar o seguinte comando exemplo:
 
 * sudo example.c -o example -lbcm2835
 
+Qualquer dúvida, acesse o seguinte site:
+
+https://raspberry-projects.com/pi/programming-in-c/io-pins/bcm2835-by-mike-mccauley
+
 

@@ -3,6 +3,8 @@ Antes de usar o SPI é preciso que seja ativado na RPi da seguinte maneira:
 
 Selecione "Opções avançadas" e, em seguida, selecione a opção relevante.
 
+Reinicie a rasp
+
 Para testar se a porta SPI está funcionando, digite:
 * ls /dev/spidev*
 

@@ -64,6 +64,8 @@ Qualquer dúvida, acesse o seguinte site:
 https://raspberry-projects.com/pi/programming-in-c/io-pins/bcm2835-by-mike-mccauley
 
 
-#include <bcm2835.h>
+Detalha como usar o protocolo SPI
+
+https://www.iot-programmer.com/index.php/books/22-raspberry-pi-and-the-iot-in-c/chapters-raspberry-pi-and-the-iot-in-c/32-getting-started-with-the-spi-bus?start=1
 
 

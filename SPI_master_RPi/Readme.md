@@ -64,3 +64,6 @@ Qualquer dúvida, acesse o seguinte site:
 https://raspberry-projects.com/pi/programming-in-c/io-pins/bcm2835-by-mike-mccauley
 
 
+#include <bcm2835.h>
+
+

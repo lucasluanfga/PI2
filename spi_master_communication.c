@@ -26,7 +26,7 @@
 //#define CS_10 25
 //#define INIT_ESP 6
 //#define INIT_RASP 13
-//#define SYNC 19
+#define SYNC 19
 //#define delay_calibration 1000
 
 //#define HIGH   1
@@ -37,10 +37,7 @@
 #define delay_calibration 1000
 
 int spi_fd;
-int channel = 0;
-int speed = 9000;  //Velocidade do clock em HZ
-int modo_spi = 1;
-int len = 1;
+const int speed = 2000;  //Velocidade do clock em HZ
 
 
 int arquive;
@@ -197,10 +194,35 @@ void general_CS (const int CS){
 
 int main(void) {
 	
+	//Verificando se há erro ao inicializar 
+	if(wiringPiSetup() == -1){		
+			puts("Erro em wiringPiSetup().");
+			return -1;
+	}
+	
+	spi_fd = wiringPiSPISetupMode (0, speed, 1);
+	
+	if(spi_fd == -1){
+		puts("Erro abrindo a SPI. Garanta que ela nao");
+		puts("esteja sendo usada por outra aplicacao.");
+		return -1;
+	}
+	
+	
+	
 	export_gpio(CS_1);
 	direction_gpio(CS_1, OUTPUT);
 	value_gpio(CS_1, HIGH);
 	delay(delay_calibration);
+	
+	export_gpio(SYNC);
+    direction_gpio(SYNC, OUTPUT);
+    value_gpio(SYNC, LOW);
+    value_gpio(SYNC, HIGH);
+    delay(20);
+    value_gpio(SYNC, LOW);
+    delay(5);
+
 	
 			
 
@@ -264,25 +286,15 @@ int main(void) {
         
         
 	
-	//Verificando se há erro ao inicializar 
-	if(wiringPiSetup() == -1){		
-			puts("Erro em wiringPiSetup().");
-			return -1;
-	}
-	
-	spi_fd = wiringPiSPISetupMode (channel, speed, modo_spi);
-	
-	if(spi_fd == -1){
-		puts("Erro abrindo a SPI. Garanta que ela nao");
-		puts("esteja sendo usada por outra aplicacao.");
-		return -1;
-	}
+
 
 while(1){
 
-	
+	value_gpio(SYNC, HIGH);
+    delay(20);
+    value_gpio(SYNC, LOW);
+    delay(5);
 	general_CS(CS_1);
-	delay(20);
 
 	
        /* while(digitalRead(INIT_RASP) == HIGH) {
@@ -300,6 +312,8 @@ while(1){
 		
         } */
         
+}	
+
 	close(spi_fd);
 
 	//unexport_gpio(CS_2);
@@ -314,9 +328,8 @@ while(1){
 	//unexport_gpio(INIT_ESP);
 	//unexport_gpio(INIT_RASP);
 
-
-}
 	unexport_gpio(CS_1);
+	unexport_gpio(SYNC);
 
 
 	return 0;

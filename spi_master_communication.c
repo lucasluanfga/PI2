@@ -14,7 +14,7 @@
 #include <stdint.h>
 
 //Definindo os pinos 
-#define CS_1 2
+#define CS_1 2	// lembrar de mudar a variável "pin" 
 //#define CS_2 3
 //#define CS_3 5
 //#define CS_4 17
@@ -29,16 +29,16 @@
 //#define SYNC 19
 //#define delay_calibration 1000
 
-#define HIGH   1
-#define LOW    0
-#define INPUT  0
-#define OUTPUT 1
+//#define HIGH   1
+//#define LOW    0
+//#define INPUT  0
+//#define OUTPUT 1
 
 #define delay_calibration 1000
 
 int spi_fd;
 int channel = 0;
-int speed = 100;  //Velocidade do clock em HZ
+int speed = 9000;  //Velocidade do clock em HZ
 int modo_spi = 1;
 int len = 1;
 
@@ -175,8 +175,9 @@ void general_CS (const int CS){
 	
 	value_gpio(CS, LOW);
 	delay(10);
-	unsigned char ReadData;
+	uint8_t ReadData;
 	wiringPiSPIDataRW(0, &ReadData, 1);
+	printf("ReadData: %u \n", ReadData);
 	value_gpio(CS, HIGH);
 	// criando a variável ponteiro para o arquivo
 	FILE *pont_arq;
@@ -195,13 +196,13 @@ void general_CS (const int CS){
 //Função principal
 
 int main(void) {
-
-
-while(1){
-		export_gpio(CS_1);
-		direction_gpio(CS_1, OUTPUT);
-		value_gpio(CS_1, HIGH);
 	
+	export_gpio(CS_1);
+	direction_gpio(CS_1, OUTPUT);
+	value_gpio(CS_1, HIGH);
+	delay(delay_calibration);
+	
+			
 
         //export_gpio(CS_2);
         //direction_gpio(CS_2, OUTPUT);
@@ -257,7 +258,7 @@ while(1){
         //value_in_gpio(CS_1,HIGH)
         //value_gpio(INIT_ESP, HIGH);
 	
-		delay(delay_calibration);
+		//delay(delay_calibration);
         
 
         
@@ -276,6 +277,9 @@ while(1){
 		puts("esteja sendo usada por outra aplicacao.");
 		return -1;
 	}
+
+while(1){
+
 	
 	general_CS(CS_1);
 	delay(20);

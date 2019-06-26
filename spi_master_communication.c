@@ -37,7 +37,7 @@
 #define delay_calibration 1000
 
 int spi_fd;
-const int speed = 2000;  //Velocidade do clock em HZ
+const int speed = 4000;  //Velocidade do clock em HZ
 
 
 int arquive;

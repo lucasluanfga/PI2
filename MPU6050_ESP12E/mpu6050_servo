@@ -87,10 +87,10 @@ void loop()
    Gy[2] = gyroResult[2]/G_R;
 
 // Aplicando o Filtro Complementar
-   Angle[0] = 0.98 *(Angle[0]+Gy[0]*0.010) + 0.02*Acc[0];
-   Angle[1] = 0.98 *(Angle[1]+Gy[1]*0.010) + 0.02*Acc[1];
+   Angle[0] = 0.98 *(Angle[0]+Gy[0]*0.010) + 0.02*Acc[0]; // Ângulo no eixo X
+   Angle[1] = 0.98 *(Angle[1]+Gy[1]*0.010) + 0.02*Acc[1]; // Ângulo no eixo Y
 
-   Angle[2] = Angle[2] + Gy[2] ;//* 0.010; 
+//   Angle[2] = Angle[2] + Gy[2] ;//* 0.010; 
 
 // Mostrando os valores pelo monitor serial
    Serial.print("Ângulo X: "); Serial.print(Angle[0]); Serial.print("\n");
@@ -102,8 +102,8 @@ void loop()
 
    
    int angulo = 0;  
-   angulo = map(Angle[0], -90, 90, 0, 180);
+   angulo = map(Angle[0], -90, 90, 0, 180); // Para mudar o grau de liberdade basta trocar aqui Algle[0] por Algle[1]
    
-   myservo.write(angulo);
+   myservo.write(angulo); // ativa o pwm do servo
 
 }

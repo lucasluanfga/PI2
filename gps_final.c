@@ -1,7 +1,3 @@
-/*
-	GPS Interfacing with Raspberry Pi using C (WiringPi Library)
-	http://www.electronicwings.com
-*/
 
 #include <stdio.h>
 #include <string.h>

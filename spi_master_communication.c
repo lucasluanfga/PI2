@@ -29,7 +29,7 @@
 //#define CS_8 23
 //#define CS_9 24
 //#define CS_10 25
-//#define INIT_ESP 20
+#define INIT_RASP 21
 #define SYNC 19
 
 
@@ -89,7 +89,7 @@ bool direction_gpio(int pin, int direction)
 }
 
 //Efetuando a leitura
-int value_in_gpio(int pin, int value)
+int value_in_gpio(int pin)
 {
      arquive=0;
      char retorno[3];
@@ -106,7 +106,7 @@ int value_in_gpio(int pin, int value)
              return false;
      }
      close(arquive);
-     printf("Valor do pino: %c \n", retorno[0]);
+    // printf("Valor do pino: %c \n", retorno[0]);
  
  
      return atoi(retorno);
@@ -201,6 +201,8 @@ int main(void) {
 	direction_gpio(SYNC, OUTPUT);
 	value_gpio(SYNC, LOW);
 	
+	export_gpio(INIT_RASP);
+	direction_gpio(INIT_RASP, INPUT);
 
 	export_gpio(CS_1);
 	direction_gpio(CS_1, OUTPUT);
@@ -247,7 +249,7 @@ int main(void) {
 //	value_in_gpio(CS_1,HIGH)
 //	value_gpio(INIT_ESP, HIGH);
 	
-while(1){
+while(value_in_gpio(INIT_RASP) == HIGH){
 
 	value_gpio(SYNC, HIGH);
 	delay(20);
@@ -269,12 +271,12 @@ while(1){
 //	general_CS(CS_9);
 //	general_CS(CS_10)
 	
- 
+
         
 }	
 
 	close(spi_fd);
-	
+		
 	unexport_gpio(CS_1);
 //	unexport_gpio(CS_2);
 //	unexport_gpio(CS_3);
@@ -288,6 +290,7 @@ while(1){
 
 //	unexport_gpio(INIT_ESP);
 	unexport_gpio(SYNC);
+	unexport_gpio(INIT_RASP);
 
 
 	return 0;
